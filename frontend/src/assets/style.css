@@ -1,0 +1,234 @@
+/* General button styles */
+.table-button {
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+}
+
+/* Action-specific button styles */
+.table-button.view {
+  background-color: #007bff; /* Blue */
+  color: white;
+}
+
+.table-button.edit {
+  background-color: #ffc107; /* Yellow */
+  color: black;
+}
+
+.table-button.delete {
+  background-color: #dc3545; /* Red */
+  color: white;
+}
+
+.table-button.approve {
+  background-color: #28a745; /* Green */
+  color: white;
+  margin-right: 5px;
+}
+
+.table-button.reject {
+  background-color: #6c757d; /* Gray */
+  color: white;
+}
+
+/* New styles for table buttons based on actions */
+.table-button.save {
+  background-color: #17a2b8; /* Teal */
+  color: white;
+}
+
+.table-button.cancel {
+  background-color: #ffc107; /* Yellow */
+  color: black;
+}
+
+/* Hover effects */
+.table-button:hover {
+  opacity: 0.9;
+}
+
+/* Utility styles for form alignment */
+.form-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  margin-right: 10px;
+  min-width: 120px; /* Minimum width for labels */
+  font-size: 14px;
+  font-weight: 500;
+  color: #333333;
+}
+
+.form-group input,
+.form-group textarea {
+  flex: 1;
+  min-width: 200px; /* Minimum width for inputs */
+  padding: 8px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.25);
+}
+
+/* Common form styles */
+.form-container {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h1 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333333;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-danger {
+  color: red;
+}
+
+.form-submit-button {
+  width: 100%;
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form-submit-button:hover {
+  background-color: #0056b3;
+}
+
+/* General table styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+table th, table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+table tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Card styles */
+.card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.card-header {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  border-bottom: 1px solid #ddd;
+}
+
+.card-body {
+  padding: 15px;
+}
+
+.card-footer {
+  background-color: #f4f4f4;
+  padding: 10px;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Button styles */
+.btn {
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.btn-info {
+  background-color: #17a2b8;
+  color: white;
+}
+
+.btn-info:hover {
+  background-color: #117a8b;
+}
+
+/* Form styles */
+.form-label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.25);
+  outline: none;
+}
+
+/* Toastify styles */
+.toastify {
+  font-size: 14px;
+  font-weight: bold;
+}

@@ -1,0 +1,196 @@
+openapi: 3.0.0
+info:
+  title: Household Services Management API
+  description: API for managing household services, including user registration, login, and role-based functionalities for admin, customers, and professionals.
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000
+    description: Local development server
+
+paths:
+  /auth/login:
+    post:
+      summary: User Login
+      description: Allows a user to log in based on their role (admin, customer, or professional).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: User email or username.
+                password:
+                  type: string
+                  description: User password.
+                usertype:
+                  type: string
+                  enum: [AL, CL, PL]
+                  description: User role (Admin, Customer, or Professional).
+      responses:
+        '200':
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+        '400':
+          description: Invalid credentials
+
+  /auth/signup/customer:
+    post:
+      summary: Customer Registration
+      description: Allows customers to register with the system.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                full_name:
+                  type: string
+                phone:
+                  type: string
+                address:
+                  type: string
+                pin_code:
+                  type: integer
+      responses:
+        '201':
+          description: Customer registered successfully
+        '400':
+          description: Validation error
+
+  /auth/signup/professional:
+    post:
+      summary: Professional Registration
+      description: Allows professionals to register with the system.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                full_name:
+                  type: string
+                phone:
+                  type: string
+                address:
+                  type: string
+                pin_code:
+                  type: integer
+                service_name:
+                  type: string
+                experience:
+                  type: integer
+                status:
+                  type: string
+      responses:
+        '201':
+          description: Professional registered successfully
+        '400':
+          description: Validation error
+
+  /admin/acceptpro:
+    get:
+      summary: Accept Professional
+      description: Approves a professional registration.
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Professional approved
+        '404':
+          description: Professional not found
+
+  /admin/rejectpro:
+    get:
+      summary: Reject Professional
+      description: Rejects a professional registration.
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Professional rejected
+        '404':
+          description: Professional not found
+
+  /customer/booknow:
+    get:
+      summary: Book a Service
+      description: Allows a customer to book a service.
+      parameters:
+        - name: packid
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Service booked successfully
+        '400':
+          description: Service not found
+
+  /customer/submit_rating:
+    post:
+      summary: Submit Rating
+      description: Allows a customer to submit a rating for a completed service.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                rating:
+                  type: integer
+                remark:
+                  type: string
+      responses:
+        '200':
+          description: Rating submitted successfully
+        '400':
+          description: Service request not found
+
+  /professional/acceptser:
+    get:
+      summary: Accept Service Request
+      description: Allows a professional to accept a service request.
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Service request accepted
+        '404':
+          description: Service request not found
