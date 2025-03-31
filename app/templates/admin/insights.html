@@ -1,0 +1,78 @@
+{% extends 'base/layout.html' %}
+{% block content %}
+<div class="container text-center">
+    <div class="row">
+        <div class="col">
+            <canvas id="admindata" width="500" height="200"></canvas>
+        </div>
+        <div class="col">
+            <canvas id="ServiceRequestCat" width="500" height="200"></canvas>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    // Data passed from Flask (chart_data is passed as JSON)
+    const chartData = {{ chart_data | tojson }};
+    const ServiceRequestCat_chartData = {{ ServiceRequestCat_chart_data | tojson }};
+    console.log(ServiceRequestCat_chartData)
+
+
+    // Access canvas for Chart.js
+    const ctx = document.getElementById('admindata').getContext('2d');
+    const ServiceRequestCat_chart_ctx = document.getElementById('ServiceRequestCat').getContext('2d');
+
+    // Create the Chart
+    new Chart(ctx, {
+        type: 'bar', // Change to 'bar', 'pie', etc. as needed
+        data: {
+            labels: chartData.labels, // X-axis labels
+            datasets: [{
+                label: 'Service Request Information',
+                data: chartData.values, // Y-axis data
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 2,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)', // Fill color
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Status'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Requests'
+                    },
+                    beginAtZero: true // Start y-axis at zero
+                }
+            }
+        }
+    });
+
+    new Chart(ServiceRequestCat_chart_ctx, {
+        type: 'pie', 
+        data: {
+            label: 'Service Request Catagory Information',
+            labels: ServiceRequestCat_chartData.labels, // X-axis labels
+            datasets: [{
+                data: ServiceRequestCat_chartData.values, // Y-axis data
+            }]
+        },
+    });
+    console.log(ServiceRequestCat_chartData)
+
+</script>
+{% endblock %}

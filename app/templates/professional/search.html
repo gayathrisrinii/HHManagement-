@@ -1,0 +1,59 @@
+{% extends 'base/layout.html' %}
+{% block navigation %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+<div class="card m-3">
+    <div class="card-header">
+        Available Services
+    </div>
+    <div class="card-body">
+<table id="profsearch" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>service_name</th>
+            <th>description</th>
+            <th>category</th>
+            <th>base_price</th>
+        </tr>
+    </thead>
+</table>
+</div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var profsearch = $('#profsearch').DataTable({
+            paging: true,
+            sWidth: "80%",
+            scrollCollapse: true,
+            columns: [
+                { data: 'id' },
+                { data: 'service_name' },
+                { data: 'description' },
+                { data: 'category' },
+                { data: 'base_price' },
+                // Add more columns as needed
+            ],
+
+        });
+
+        $.ajax({
+            url: '/serviceslist',
+            type: 'GET',
+            success: function (response) {
+                if (response) {
+                    console.log(response);
+                    profsearch.rows.add(response.data).draw();
+                } else {
+                    alert('Failed to reject service');
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            },
+        })
+    });
+</script>
+{% endblock %}

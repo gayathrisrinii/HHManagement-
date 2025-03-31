@@ -1,0 +1,125 @@
+{% extends 'base/layout.html'%}
+
+{% block navigation %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+
+<h4>Hi {{ User.full_name }}!</h4>
+
+<div class="card m-3">
+    <div class="card-header">
+        Services Available
+    </div>
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Service Name</th>
+                    <th>Description</th>
+                    <th>Base Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody> {% for service in TodayServices %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ service.service_name }}</td>
+                    <td>{{ service.description }}</td>
+                    <td>{{ service.base_price }}</td>
+                    <td><button type="button" class="btn btn-success book" data-id="{{service.id}}">Book</button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $('.book').click(function () {
+        id = $(this).data('id');
+        console.log(id);
+        $.ajax({
+            url: '/customer/booknow?packid=' + id,
+            type: 'GET',
+            success: function (response) {
+                if (response.success) {
+                    location.reload();
+                } else {
+                    alert('Failed to book service');
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            },
+        });
+    });
+</script>
+<div class="card m-3">
+    <div class="card-header">
+        Service History
+    </div>
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Service Name</th>
+                    <th>Professional Name</th>
+                    <th>Phone</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody> {% for service in ServiceHistory %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>
+                        {% for item in TodayServices %}
+                        {% if item.id == service.service_id %}
+                        {{ item.service_name }}
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                    {% if service.assignee_id %}
+                     {% for prof in Professionaldata %}
+                        {% if prof.pid == service.assignee_id %}
+                    <td> {{ prof.full_name }}</td>
+                    <td>{{ prof.phone }}</td>
+                    
+                    {% endif %}
+                {% endfor %}
+                {% endif %}
+            </td>
+            <td>
+                {% for prof in Profdetails %}
+                    {% if prof.pid == service.assignee_id %}
+                        {{ prof.full_name }}
+                    {% endif %}
+                {% endfor %}
+            </td>
+            <td>
+                {% for prof in Profdetails %}
+                    {% if prof.pid == service.assignee_id %}
+                        {{ prof.phone }}
+                    {% endif %}
+                {% endfor %}
+            </td>
+            <td>{{ service.date }}</td>
+            <td>{{ service.status }}</td>
+            <td><button type="button" class="btn {% if service.status == 'Completed' %}btn-success
+                {% elif service.status == 'InProgress' %}btn-warning
+                {% elif service.status == 'Requested' %}btn-info
+                {% else %}btn-info
+                {% endif %} "><a pointer-events: none;
+                                href="/customer/bookingdetails?sid={{ service.service_request_id }}">View/Close</a>
+                        </button></td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

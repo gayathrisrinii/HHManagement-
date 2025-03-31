@@ -1,0 +1,122 @@
+{% extends 'base/layout.html' %}
+{% block navigation %}
+{{ super() }}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="card m-3">
+    <div class="card-header">
+        Services Requested
+    </div>
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Service Name</th>
+                    <th>Description</th>
+                    <th>Base Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody> {% for service in ServiceRequests %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+
+                    {% for item in AllService %}
+                    {% if item.id == service.service_id %}
+                    <td>
+                        {{ item.service_name }}
+                    </td>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.base_price }}</td>
+                    {% endif %}
+
+                    {% endfor %}
+
+
+                    <td><button type="button" class="btn btn-success serviceacc"
+                            data-id="{{service.service_request_id}}">Accept</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $('.serviceacc').click(function () {
+        id = $(this).data('id');
+        $.ajax({
+            url: '/professional/acceptser?id=' + id,
+            type: 'GET',
+            success: function (response) {
+                console.log(response);
+                if (response.success) {
+                    location.reload();
+                } else {
+                    alert('Failed to accept service');
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            },
+        });
+    });
+
+</script>
+
+
+<div class="card m-3">
+    <div class="card-header">
+        Service History
+    </div>
+    <div class="card-body">
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Service Name</th>
+            <th>Customer Name</th>
+            <th>Phone</th>
+            <th>Date</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody> {% for service in ServiceHistory %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>
+                {% for item in AllService %}
+                {% if item.id == service.service_id %}
+                {{ item.service_name }}
+                {% endif %}
+                {% endfor %}
+            </td>
+            <td>
+                {% for cust in Custdetails %}
+                    {% if cust.customer_id == service.customer_id %}
+                        {{ cust.full_name }}
+                    {% endif %}
+                {% endfor %}
+            </td>
+            <td>
+                {% for cust in Custdetails %}
+                    {% if cust.customer_id == service.customer_id %}
+                        {{ cust.phone }}
+                    {% endif %}
+                {% endfor %}
+            </td>
+            <td>{{ service.date }}</td>
+            <td>{{ service.status }}</td>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+</div>
+
+{% endblock %}

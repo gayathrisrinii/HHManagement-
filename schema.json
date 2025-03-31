@@ -1,0 +1,60 @@
+{
+    "Administration": {
+        "newServices": [
+        {
+                "Service ID": "Number",
+                "serviceName": "String",
+                "Descriptiomn": "Long sting",
+                "Base Price": "Number"
+            }
+        ],
+        "Packages": [
+            {
+                "Package ID": "Number",
+                "PackageName": "String",
+                "Description": "Long string",
+                "Base Price": "Number",
+                "Service ID": ["Number---->From Admin newServices"]
+            }
+        ],
+        "ServiceRequestList": [
+            {
+                "ServiceRequestID": "Number",
+                "CustomerID": "Number",
+                "PackageID": "Number",
+                "Assigne": "Number----PID",
+                "Date": "Date",
+                "Status": "Status--->R/A/C",
+                "Rating": "Number---->of 5 ---default 0",
+                "Remarks": ""
+            }
+        ]
+    },
+    "professionals": {
+        "Register": {
+            "PID": "Number",
+            "Emal": "String",
+            "Password": "String",
+            "FullName": "String",
+            "Service Name": "String--> From Admin newServices",
+            "Experience": "Number",
+            "Attachment": "File",
+            "Address": "String",
+            "Phone": "String",
+            "PinCode": "Number",
+            "Status": "String----> Approve/Hold/Reject",
+            "JOBSAccepted":["PackageID"]
+        }
+    },
+    "Customers": {
+        "Register":{
+            "CustomerID": "Number",
+            "Email": "String",
+            "Password": "String",
+            "FullName": "String",
+            "Address": "String",
+            "PinCode":"Number",
+            "Phone": "String"
+        }
+    }
+}

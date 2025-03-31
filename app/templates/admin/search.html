@@ -1,0 +1,167 @@
+{% extends 'base/layout.html' %}
+{% block content %}
+<div class="card m-3">
+    <div class="card-header">
+        Service Catagory Data
+    </div>
+    <div class="card-body">
+        <table id="serviceSearch" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>service_name</th>
+                    <th>description</th>
+                    <th>category</th>
+                    <th>base_price</th>
+
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+<div class="card m-3">
+    <div class="card-header">
+        Service Request Data
+    </div>
+    <div class="card-body m-3">
+        <table id="servicesRequests" class="display">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>customer_Name/th>
+                    <th>service_Name</th>
+                    <th>Pro_Name</th>
+                    <th>status</th>
+                    <th>rating</th>
+
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+<div class="card m-3">
+    <div class="card-header">
+        Professionals Data
+    </div>
+    <div class="card-body">
+        <table id="professionals" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>full_name</th>
+                    <th>email</th>
+                    <th>phone_number</th>
+                    <th>status</th>
+                    <th>service_name</th>
+
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+<div class="card m-3">
+    <div class="card-header">
+        Customers Data
+    </div>
+    <div class="card-body">
+        <table id="customers" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>full_name</th>
+                    <th>email</th>
+                    <th>phone_number</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<script>
+    $(document).ready(function () {
+        var serviceSearch = $('#serviceSearch').DataTable({
+            paging: true,
+            sWidth: "80%",
+            scrollCollapse: true,
+            columns: [
+                { data: 'id' },
+                { data: 'service_name' },
+                { data: 'description' },
+                { data: 'category' },
+                { data: 'base_price' },
+                // Add more columns as needed
+            ],
+
+        });
+        var servicesRequests = $('#servicesRequests').DataTable({
+            paging: true,
+            sWidth: "80%",
+            scrollCollapse: true,
+            columns: [
+                { data: 'id' },
+                { data: 'customer_id' },
+                { data: 'service_id' },
+                { data: 'professsional_id' },
+                { data: 'status' },
+                { data: 'rating' },
+                // Add more columns as needed
+            ],
+        });
+
+
+        var professionals = $('#professionals').DataTable({
+            paging: true,
+            sWidth: "80%",
+            scrollCollapse: true,
+            columns: [
+                { data: 'id' },
+                { data: 'full_name' },
+                { data: 'email' },
+                { data: 'phone_number' },
+                { data: 'status' },
+                { data: 'service_name' },
+                // Add more columns as needed
+            ],
+        });
+
+        var customers = $('#customers').DataTable({
+            paging: true,
+            sWidth: "80%",
+            scrollCollapse: true,
+            columns: [
+                { data: 'id' },
+                { data: 'full_name' },
+                { data: 'email' },
+                { data: 'phone_number' },
+            ],
+        });
+
+        $.ajax({
+            url: '/admin/searchparameters',
+            type: 'GET',
+            success: function (response) {
+                if (response) {
+                    console.log(response);
+                    serviceSearch.rows.add(response.services.data).draw();
+                    servicesRequests.rows.add(response.servicesRequests.data).draw();
+                    professionals.rows.add(response.professionals.data).draw();
+                    customers.rows.add(response.customers.data).draw();
+
+                } else {
+                    alert('Failed to reject service');
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            },
+        })
+    });
+</script>
+{% endblock %}

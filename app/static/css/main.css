@@ -1,0 +1,34 @@
+input#submit{
+    background-color: #04AA6D;
+    border-radius: 10px;
+    margin: 10px;
+    border: none;
+    /* color: white; */
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+
+.stars {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+}
+.stars input {
+    display: none;
+}
+.stars label {
+    font-size: 2em;
+    color: lightgray;
+    cursor: pointer;
+}
+.stars input:checked ~ label {
+    color: gold;
+}
+.stars label:hover,
+.stars label:hover ~ label {
+    color: gold;
+}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Admin Report</h1>
+    <p>Here are the details of the report:</p>
+    <h2>Summary</h2>
+    <p>Total Requests Today: {{ summary_data.total_requests_today }}</p>
+    <p>Resolved Requests: {{ summary_data.resolved_requests }}</p>
+    <p>Pending Requests: {{ summary_data.pending_requests }}</p>
+    <p>Requested Requests: {{ summary_data.requested_requests }}</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Professional</th>
+                <th>Service Request</th>
+                <th>Service</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in report_data %}
+            <tr>
+                <td>{{ item.professional }}</td>
+                <td>{{ item.service_request }}</td>
+                <td>{{ item.service }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

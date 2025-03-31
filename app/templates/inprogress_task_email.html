@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks In Progress</title>
+</head>
+<body>
+    <h1>Tasks In Progress</h1>
+    <p>Dear {{ professional.full_name }},</p>
+    <p>You have the following tasks in progress:</p>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Service Name</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Remarks</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for request in service_requests %}
+                <tr>
+                    <td>{{ request.service_name }}</td>
+                    <td>{{ request.description }}</td>
+                    <td>{{ request.date }}</td>
+                    <td>{{ request.remarks }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p>Please check the tasks as soon as possible.</p>
+    <p>Thank you!</p>
+</body>
+</html>

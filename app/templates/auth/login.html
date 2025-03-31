@@ -1,0 +1,60 @@
+{% extends 'base/layout.html' %}
+{% block navigation %}
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+<div class="card m-5">
+    <div class="card-header text-center">
+        Login
+    </div>
+    <div class="card-body">
+
+        <form action="{{ url_for('auth.login') }}" method="POST">
+            {{LoginForm.hidden_tag()}}
+            {{LoginForm.csrf_token()}}
+            <div class="form-group">
+                {{ LoginForm.username.label(class="form-label") }}
+                {{ LoginForm.username(class="form-control") }}
+                {% for error in LoginForm.username.errors %}
+                <span style="color: red">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                {{ LoginForm.password.label(class="form-label") }}
+                {{ LoginForm.password(class="form-control") }}
+                {% for error in LoginForm.password.errors %}
+                <span style="color: red">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                {{ LoginForm.usertype.label(class="form-label") }}
+                {{ LoginForm.usertype(class="form-control") }}
+                {% for error in LoginForm.usertype.errors %}
+                <span style="color: red">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div>{{ LoginForm.submit }}</div>
+        </form>
+    </div>
+    <div class="card-footer text-body-secondary text-center">
+        Don't forgot to change the Login Type for Admin/Cusotme/Professional
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        function getQueryParam(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        const type = getQueryParam('type');
+        if (type == "AL") {
+            $('#usertype').val(type);
+        } else if (type == "PL") {
+            $('#usertype').val(type);
+        }
+    });
+
+</script>
+{% endblock %}

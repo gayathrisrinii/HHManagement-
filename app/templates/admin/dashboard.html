@@ -1,0 +1,114 @@
+{% extends 'base/layout.html' %}
+{% block content %}
+<div class="card m-3">
+    <div class="card-header">
+        Professional Status
+    </div>
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Mail</th>
+                    <th>Name</th>
+                    <th>Experience</th>
+                    <th>Status</th>
+                    <th>A/R</th>
+                </tr>
+            </thead>
+            <tbody> {% for PUser in ProfessionalStatus %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ PUser.email }}</td>
+                    <td>{{ PUser.full_name }}</td>
+                    <td>{{ PUser.experience }} years</td>
+                    <td>{{ PUser.status }}</td>
+                    <td><button type="button" class="btn btn-success Puseracc" data-id="{{PUser.pid}}">Accept</button>
+                        <button type="button" class="btn btn-danger Puserrej" data-id="{{PUser.pid}}">Reject</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $('.Puseracc').click(function () {
+        id = $(this).data('id');
+        $.ajax({
+            url: '/admin/acceptpro?id=' + id,
+            type: 'GET',
+            success: function (response) {
+                if (response.success) {
+                    location.reload();
+                } else {
+                    alert('Failed to accept professional');
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            },
+        });
+    });
+
+    $('.Puserrej').click(function () {
+        id = $(this).data('id');
+        $.ajax({
+            url: '/admin/rejectpro?id=' + id,
+            type: 'GET',
+            success: function (response) {
+                if (response.success) {
+                    location.reload();
+                } else {
+                    alert('Failed to reject professional');
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            },
+        });
+    });
+</script>
+<div class="card m-3">
+    <div class="card-header">
+        Add New Service
+    </div>
+    <div class="card-body">
+        <form action="{{ url_for('admin.dashboard') }}" method="POST">
+            {{ServiceForm.hidden_tag()}}
+            {{ServiceForm.csrf_token()}}
+            <div class="form-group">
+                {{ ServiceForm.service_name.label(class="form-label") }}
+                {{ ServiceForm.service_name(class="form-control") }}
+                {% for error in ServiceForm.service_name.errors %}
+                <span style="color: red">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                {{ ServiceForm.category.label(class="form-label") }}
+                {{ ServiceForm.category(class="form-control") }}
+                {% for error in ServiceForm.category.errors %}
+                <span style="color: red">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                {{ ServiceForm.description.label(class="form-label") }}
+                {{ ServiceForm.description(class="form-control") }}
+                {% for error in ServiceForm.description.errors %}
+                <span style="color: red">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                {{ ServiceForm.base_price.label(class="form-label") }}
+                {{ ServiceForm.base_price(class="form-control") }}
+                {% for error in ServiceForm.base_price.errors %}
+                <span style="color: red">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div>{{ ServiceForm.submit }}</div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+<h3>Service Requests</h3>

@@ -1,0 +1,16 @@
+{% extends 'base/layout.html' %}
+{% block navigation %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+<div class="card text-bg-danger mb-3 center text-center" >
+    <div class="card-header">You Are Not Autherized to Visit the Page</div>
+    <div class="card-body">
+      <h5 class="card-title">405</h5>
+      <p class="card-text">Got Login page to login</p>
+      <a href="/customer/dashboard" class="btn btn-warning m-2">Dasbhoard/Login</a>
+    </div>
+  </div>
+
+
+{% endblock %}

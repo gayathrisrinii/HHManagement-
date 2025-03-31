@@ -1,0 +1,162 @@
+{% extends 'base/layout.html' %}
+{% block navigation %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+<div class="card m-3">
+    <div class="card-header {% if ServiceDetails.status == 'Completed' %}bg-success text-white
+    {% elif ServiceDetails.status == 'InProgress' %}bg-warning text-dark
+    {% elif ServiceDetails.status == 'Requested' %}bg-info text-dark
+    {% else %}bg-light text-dark
+    {% endif %}">        Service Request Remarks : {{ ServiceDetails.service_request_id}}({{ ServiceDetails.status}})
+    </div>
+    <div class="card-body">
+        <div class="container text-center">
+            <div class="row">
+                <div class="col">
+                    <div class="card text-center">
+                        <div class="card-header">
+                            Request Name
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                {{SeviceInfo.service_name}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card text-center">
+                        <div class="card-header">
+                            Date
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                {{ServiceDetails.date}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card text-center">
+                        <div class="card-header">
+                            Description
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                {{SeviceInfo.description}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="card text-center">
+                        <div class="card-header">
+                            Professsional ID
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                {{ServiceDetails.assignee_id}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card text-center">
+                        <div class="card-header">
+                            Professional Name
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                {{ProfessionalInfo.full_name}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card text-center">
+                        <div class="card-header">
+                            Professional Phone
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                {{ProfessionalInfo.phone}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <h1>Rate and Review</h1>
+                <form id="ratingForm">
+                    <div class="stars">
+                        <input type="radio" id="star5" name="rating" value="5"><label for="star5">★</label>
+                        <input type="radio" id="star4" name="rating" value="4"><label for="star4">★</label>
+                        <input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
+                        <input type="radio" id="star2" name="rating" value="2"><label for="star2">★</label>
+                        <input type="radio" id="star1" name="rating" value="1"><label for="star1">★</label>
+                    </div>
+                    <div>
+                        <textarea name="remark" id="remark" placeholder="Enter your remarks here..." rows="5" cols="50" required></textarea>
+                    </div>
+                    <button type="submit" id="submitrateing" class="bg-danger">Close Request</button>
+                </form>
+           
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        if ("{{ServiceDetails.rating}}") {
+                $(`input[name="rating"][value="${"{{ServiceDetails.rating}}"}"]`).prop("checked", true);
+            }
+
+            // Pre-fill the remark
+            if ("{{ServiceDetails.remarks}}" && "{{ServiceDetails.remarks}}"!="None") {
+                $("#remark").val("{{ServiceDetails.remarks}}");
+                $('#submitrateing').hide();
+
+            }
+
+ 
+        document.getElementById("ratingForm").addEventListener("submit", async function(event) {
+                        event.preventDefault();
+                        const rating = document.querySelector('input[name="rating"]:checked')?.value;
+                        const remark = document.getElementById("remark").value;
+                        const id= {{sid}};
+                        console.log(id,rating,remark);
+                        if (!rating) {
+                            alert("Please select a star rating.");
+                            return;
+                        }
+            
+                        const response = await fetch('/customer/submit_rating', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ rating, remark,id }),
+                        });
+            
+                        if (response.ok) {
+                            alert("Thank you for your feedback!");
+                            window.location.reload();
+
+                        } else {
+                            alert("There was an error. Please try again.");
+                        }
+                    });
+
+    })
+
+</script>
+{% endblock %}
